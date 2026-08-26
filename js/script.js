@@ -7,6 +7,7 @@ class Movie {
     }
 }
 
+
 // Async function to handle API connection and data retrieval
 !async function () {
     const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
@@ -19,23 +20,28 @@ class Movie {
         }
     };
 
+
     // Fetching data from The Movie Database (TMDB)
     let data = await fetch(url, options)
         .then(res => res.json())
         .then(res => { return res })
         .catch(err => console.error(err));
 
+
     // Console log to verify API data structure
     console.log(data);
+
 
     // Extracting API data into local variables
     let title = data.results[0].title;
     let rating = data.results[0].vote_average;
     let imagePath = "https://image.tmdb.org/t/p/w500/" + data.results[0].poster_path;
 
+
     // Creating an instance of the Movie object
     let myMovie = new Movie(title, rating, imagePath);
 
+    
     // Injecting data into Ari's HTML containers
     document.getElementById('title').innerHTML = myMovie.title;
     
