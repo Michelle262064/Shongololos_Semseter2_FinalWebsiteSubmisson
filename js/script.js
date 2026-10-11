@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LOGIN / SIGNUP TOGGLE LOGIC ---
     const signinSection = document.getElementById('signinSection');
     const signupSection = document.getElementById('signupSection');
     const showSignupBtn = document.getElementById('showSignup');
@@ -37,10 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- WATCHLIST RENDERING LOGIC ---
     const watchlistGrid = document.getElementById('watchlistGrid');
     
-    // Guard clause: If #watchlistGrid isn't on the current page, stop here so it doesn't throw errors
     if (!watchlistGrid) return;
 
     const savedWatchlist = JSON.parse(localStorage.getItem('streamlineWatchlist')) || [];
@@ -78,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Helper function to toggle or add items to watchlist from elsewhere
 function toggleWatchlist(movieData) {
     let watchlist = JSON.parse(localStorage.getItem('streamlineWatchlist')) || [];
     const existingIndex = watchlist.findIndex(movie => movie.id === movieData.id);
@@ -94,7 +90,6 @@ function toggleWatchlist(movieData) {
     localStorage.setItem('streamlineWatchlist', JSON.stringify(watchlist));
 }
 
-// Fixed function name to match what the remove button calls
 function removeFromWatchlist(movieId) {
     let savedWatchlist = JSON.parse(localStorage.getItem('streamlineWatchlist')) || [];
     savedWatchlist = savedWatchlist.filter(movie => movie.id !== movieId);
