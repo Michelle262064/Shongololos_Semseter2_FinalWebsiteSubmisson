@@ -518,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const watchlistGrid = document.getElementById('watchlistGrid');
   if (!watchlistGrid) return;
 
-  // Works for saved Movie objects (image) and raw TMDB objects (poster_path)
   function posterOf(movie) {
     if (movie.image) return movie.image;
     if (movie.poster_path) return "https://image.tmdb.org/t/p/w342" + movie.poster_path;
@@ -526,14 +525,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return "";
   }
 
-  function renderWatchlist() {
+    function renderWatchlist() {
     const list = getWatchlist();
     if (!list.length) {
       watchlistGrid.innerHTML = `<p class="empty-msg">Your watchlist is empty. Go explore some movies!</p>`;
       return;
     }
     watchlistGrid.innerHTML = list.map(movie => `
-      <div class="movie-card">
+      <div class="movie-card" data-key="${escapeHTML(movieKey(movie))}" style="cursor:pointer">
         ${posterOf(movie)
           ? `<img src="${escapeHTML(posterOf(movie))}" alt="${escapeHTML(movie.title)}">`
           : `<div class="poster-fallback">${escapeHTML(movie.title)}</div>`}
@@ -547,10 +546,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   watchlistGrid.addEventListener('click', e => {
     const btn = e.target.closest('.remove-btn');
-    if (!btn) return;
-    const movie = getWatchlist().find(m => movieKey(m) === btn.dataset.key);
-    if (movie) toggleWatchlist(movie); // it's saved, so this removes it
-    renderWatchlist();
+    if (btn) {
+      const movie = getWatchlist().find(m => movieKey(m) === btn.dataset.key);
+      if (movie) toggleWatchlist(movie); // it's saved, so this removes it
+      renderWatchlist();
+      return;
+    }
+
+    const card = e.target.closest('.movie-card');
+    if (!card) return;
+    const movie = getWatchlist().find(m => movieKey(m) === card.dataset.key);
+    if (movie) openMovie(movie);
   });
 
   renderWatchlist();
