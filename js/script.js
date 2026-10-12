@@ -8,7 +8,7 @@ class Movie {
 }
 
 
-// Container class that holds all the movies
+// Container class that holds all the movies 
 class Library {
     constructor(){
         this.movies = [];
@@ -31,17 +31,28 @@ let libraryDiv = document.getElementById('library');
 let filterForm = document.getElementById('filter-form');
 
 
-// Shows every movie as a simple line of text
+
+// Loops through the movies and shows every one of them on the page
 function displayMovies(_movies){
-    let lines = _movies.map(function(movie){
-        return '<p>' + movie.title + ' - ' + movie.rating + '/10</p>';
+    if (_movies.length === 0) {
+        libraryDiv.innerHTML = '<p>No movies found</p>';
+        return;
+    }
+
+    let cards = _movies.map(function(movie){
+        return '<div class="col-6 col-md-3 mb-4">' +
+            '<div class="card">' +
+            '<img src="' + movie.image + '" class="card-img-top">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + movie.title + '</h5>' +
+            '<p class="card-text">User Rating: ' + movie.rating + '/10</p>' +
+            '</div></div></div>';
     });
 
-    libraryDiv.innerHTML = lines.join('');
+    libraryDiv.innerHTML = cards.join('');
 }
 
-
-// Loads movies from local storage, or gets them from the API first time the page is loaded, then displays them
+// Loads movies from local storage, or gets them from the API first time the page is loaded, and then displays them on the page
 !async function () {
     let savedMovies = JSON.parse(localStorage.getItem('movies'));
 
@@ -60,6 +71,8 @@ function displayMovies(_movies){
             .then(res => res.json())
             .then(res => { return res })
             .catch(err => console.error(err));
+
+        console.log(data);
 
         for (let i = 0; i < data.results.length; i++) {
             let title = data.results[i].title;
@@ -95,6 +108,8 @@ filterForm.addEventListener('submit', function(event){
 
     displayMovies(myLibrary.getMoviesAboveRating(minRating));
 });
+
+
 
 
 // Reset the filter
