@@ -1,7 +1,7 @@
 
 // Import the functions needed from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
 // Web app's Firebase configuration
 const firebaseConfig = {

@@ -1,5 +1,3 @@
-//Michelle
-// Core object class
 class Movie {
   constructor(_title, _rating, _image, _backdrop = "", _overview = "", _genres = [], _id = null) {
     this.title = _title;
@@ -286,17 +284,30 @@ function initPaddles() {
     const li = document.createElement("li");
     li.className = "menu-item user-menu-item";
     li.innerHTML = `
-      <a href="/index.html" class="menu-link user-link d-flex align-items-center gap-2 text-decoration-none" title="Signed in as ${escapeText(name)}">
+      <a href="/public/index.html" class="menu-link user-link d-flex align-items-center gap-2 text-decoration-none" title="Signed in as ${escapeText(name)}">
         <span class="user-avatar">${escapeText(name.charAt(0).toUpperCase())}</span>
         <span class="user-name">${escapeText(name)}</span>
       </a>`;
     menu.appendChild(li);
+    const out = document.createElement("li");
+    out.className = "menu-item user-menu-item";
+    out.innerHTML = `<a href="#" id="logout-button" class="menu-link text-decoration-none">Logout</a>`;
+    menu.appendChild(out);
   }
 
   window.StreamLineAuth = { getUser, login, logout, render: renderUserNav };
 
   // Keep the navbar right if the user logs in / out in another tab
   window.addEventListener("storage", e => { if (e.key === USER_KEY) renderUserNav(); });
+  // Logout: works for any #logout-button / #logoutBtn on any page
+  document.addEventListener("click", e => {
+  const btn = e.target.closest("#logout-button, #logoutBtn");
+  if (!btn) return;
+  e.preventDefault();
+  try { localStorage.removeItem("streamlineSelectedMovie"); } catch {}
+  logout(); // clears "streamlineUser"
+  window.location.href = "/public/index.html";
+});
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderUserNav);
   else renderUserNav();
@@ -480,39 +491,8 @@ function initPaddles() {
 })();
 
 //Ari
-// Sign in / sign up toggles + Watchlist page
-document.addEventListener('DOMContentLoaded', () => {
-  const signinSection = document.getElementById('signinSection');
-  const signupSection = document.getElementById('signupSection');
-  const showSignupBtn = document.getElementById('showSignup');
-  const showSigninBtn = document.getElementById('showSignin');
-
-  if (showSignupBtn) {
-    showSignupBtn.addEventListener('click', e => {
-      e.preventDefault();
-      signinSection.classList.add('hidden');
-      signupSection.classList.remove('hidden');
-    });
-  }
-  if (showSigninBtn) {
-    showSigninBtn.addEventListener('click', e => {
-      e.preventDefault();
-      signupSection.classList.add('hidden');
-      signinSection.classList.remove('hidden');
-    });
-  }
-
-  const signinForm = document.getElementById('signinForm');
-  if (signinForm) signinForm.addEventListener('submit', e => {
-    e.preventDefault();
-    console.log('Sign In form submitted');
-  });
-
-  const signupForm = document.getElementById('signupForm');
-  if (signupForm) signupForm.addEventListener('submit', e => {
-    e.preventDefault();
-    console.log('Sign Up form submitted');
-  });
+  // Watchlist page
+  document.addEventListener('DOMContentLoaded', () => {
 
   // Watchlist page
   const watchlistGrid = document.getElementById('watchlistGrid');
@@ -525,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return "";
   }
 
-    function renderWatchlist() {
+  function renderWatchlist() {
     const list = getWatchlist();
     if (!list.length) {
       watchlistGrid.innerHTML = `<p class="empty-msg">Your watchlist is empty. Go explore some movies!</p>`;
@@ -548,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('.remove-btn');
     if (btn) {
       const movie = getWatchlist().find(m => movieKey(m) === btn.dataset.key);
-      if (movie) toggleWatchlist(movie); // it's saved, so this removes it
+      if (movie) toggleWatchlist(movie);
       renderWatchlist();
       return;
     }
@@ -561,3 +541,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderWatchlist();
 });
+

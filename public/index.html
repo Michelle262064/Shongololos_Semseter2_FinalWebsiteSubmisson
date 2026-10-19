@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Streamline - Authentication</title>
-     <link rel="stylesheet" href="css/main.css">
+     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
 
     <header class="siteHeader">
-        <a href="#" class="logoContainer">
-             <a href="/public/pages/homepage.html" class="logoLink d-inline-block"><img src="/public/assets/img/Firefly_remove the background, only the logo and text must be visible. 555451.png" class="logo" alt="StreamLine"></a>
-        </a>
+        <a href="/public/pages/homepage.html" class="logoLink d-inline-block"><img src="/public/assets/img/Firefly_remove the background, only the logo and text must be visible. 555451.png" class="logo" alt="StreamLine"></a>
     </header>
 
     <main class="authMain">
         
         <section id="signinSection" class="authCard">
             <h1>Sign In</h1>
+            <p id="signinMessage" class="message" role="alert"></p>  
+ 
             <form id="signinForm">
                 <div class="inputGroup">
                     <label for="signinEmail">Email</label>
@@ -39,6 +39,8 @@
 
         <section id="signupSection" class="authCard hidden">
             <h1>Create Account</h1>
+            <p id="signupMessage" class="message" role="alert"></p>  
+            
             <form id="signupForm">
                 <div class="inputGroup">
                     <label for="signupName">Full Name</label>
@@ -69,9 +71,7 @@
         <p>&copy; 2026 Streamline Interactive Development Project.</p>
     </footer>
 
-
-
-
     <script src="/public/js/script.js"></script>
+    <script type="module" src="/public/js/firebaseJS.js"></script>
 </body>
 </html>
