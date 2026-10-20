@@ -25,7 +25,8 @@ let libraryDiv = document.getElementById('libraryGrid');
 let filterForm = document.getElementById('filter-form');
 let categoryPills = document.querySelectorAll('.category-pill');
 
-
+// The navbar search sends the word in the address, e.g. library.html?search=batman (null if nothing was searched)
+let searchWord = new URLSearchParams(window.location.search).get('search');
 
 // Shows every movie on the page as a card, with a "View movie" button added to each card
 function displayMovies(_movies){
@@ -41,6 +42,20 @@ function displayMovies(_movies){
 
 // Loads movies from local storage, or gets them from the API first time the page is loaded, and then displays them on the page
 !async function () {
+
+        // If someone searched from the navbar, show the search results instead of the normal library
+    if (searchWord) {
+        let results = await loadMovies({ query: searchWord });
+
+        for (let i = 0; i < results.length; i++) {
+            myLibrary.addMovie(results[i]);
+        }
+
+        document.getElementById('libraryTitle').textContent = 'Results for "' + searchWord + '"';
+        displayMovies(myLibrary.movies);
+        return;
+    }
+    
     let savedMovies = JSON.parse(localStorage.getItem('movies'));
 
     if (!savedMovies || savedMovies.length < 25) {
