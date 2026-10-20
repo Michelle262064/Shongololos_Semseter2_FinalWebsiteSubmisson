@@ -484,13 +484,6 @@ body {
     text-decoration: none;
 }
 
-.logoMark {
-    height: 38px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-}
-
 .authMain {
     display: flex;
     justify-content: center;
@@ -605,10 +598,6 @@ body {
 @media (max-width: 480px) {
     .siteHeader {
         padding: 16px 20px;
-    }
-
-    .logoMark {
-        height: 30px;
     }
 
     .authCard {
