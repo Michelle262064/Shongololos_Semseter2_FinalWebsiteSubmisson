@@ -1,0 +1,116 @@
+/* Library page (Sebastiaan) - uses the colours from main.css */
+
+.library-main {
+    max-width: 1400px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 30px;
+}
+
+.library-main h1 {
+    margin-bottom: 20px;
+}
+
+/*- filters (category buttons + rating box) -*/
+.library-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.library-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rating-form {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.rating-form input {
+    width: 130px;
+    padding: 8px 12px;
+    background-color: var(--accent-black);
+    border: 1px solid var(--border-grey);
+    border-radius: 6px;
+    color: var(--text-white);
+    outline: none;
+}
+
+.rating-form input:focus {
+    border-color: var(--electric-blue);
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background-color: var(--electric-blue);
+    color: var(--text-white);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: var(--blue-hover);
+}
+
+.filter-btn-grey {
+    background-color: var(--hover-black);
+}
+
+.filter-btn-grey:hover {
+    background-color: var(--border-grey);
+}
+
+/*- cards in rows, flexbox with wrap so they drop to a new row -*/
+.library-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 26px 18px;
+}
+
+/*- "View movie" button, hidden until you hover over the card -*/
+.view-movie-btn {
+    position: absolute;
+    top: 186px;
+    left: 8px;
+    right: 8px;
+    height: 36px;
+    background-color: var(--electric-blue);
+    color: var(--text-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s, background-color 0.2s;
+}
+
+.dashboard-movie-card:hover .view-movie-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.view-movie-btn:hover {
+    background-color: var(--blue-hover);
+}
+
+@media (max-width: 600px) {
+    .library-main {
+        padding: 0 16px;
+    }
+
+    .rating-form {
+        margin-left: 0;
+    }
+}
