@@ -67,7 +67,7 @@ async function handleLogin(event) {
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "/public/pages/homepage.html";
+        window.location.href = "/pages/homepage.html";
     } catch (error) {
         showMessage(signinMessage, getFriendlyErrorMessage(error.code), "error");
     }
@@ -76,7 +76,7 @@ async function handleLogin(event) {
 async function handleLogout() {
     try {
         await signOut(auth);
-        window.location.href = "/public/index.html";
+        window.location.href = "/index.html";
     } catch (error) {
         alert("Could not log out. Please try again.");
     }

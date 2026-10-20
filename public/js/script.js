@@ -284,7 +284,7 @@ function initPaddles() {
     const li = document.createElement("li");
     li.className = "menu-item user-menu-item";
     li.innerHTML = `
-      <a href="/public/index.html" class="menu-link user-link d-flex align-items-center gap-2 text-decoration-none" title="Signed in as ${escapeText(name)}">
+      <a href="/index.html" class="menu-link user-link d-flex align-items-center gap-2 text-decoration-none" title="Signed in as ${escapeText(name)}">
         <span class="user-avatar">${escapeText(name.charAt(0).toUpperCase())}</span>
         <span class="user-name">${escapeText(name)}</span>
       </a>`;
@@ -306,7 +306,7 @@ function initPaddles() {
   e.preventDefault();
   try { localStorage.removeItem("streamlineSelectedMovie"); } catch {}
   logout(); // clears "streamlineUser"
-  window.location.href = "/public/index.html";
+  window.location.href = "/index.html";
 });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderUserNav);
