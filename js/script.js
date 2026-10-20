@@ -1,11 +1,4 @@
-// Core object class for the project
-class Movie {
-    constructor(_title, _rating, _image) {
-        this.title = _title;
-        this.rating = _rating;
-        this.image = _image;
-    }
-}
+// Movie class is already in script.js
 
 
 // Container class that holds all the movies 
@@ -26,73 +19,69 @@ class Library {
 }
 
 let myLibrary = new Library();
+let shownMovies = [];
 
-let libraryDiv = document.getElementById('library');
+let libraryDiv = document.getElementById('libraryGrid');
 let filterForm = document.getElementById('filter-form');
+let categoryPills = document.querySelectorAll('.category-pill');
 
 
 
-// Loops through the movies and shows every one of them on the page
+// Shows every movie on the page as a card, with a "View movie" button added to each card
 function displayMovies(_movies){
-    if (_movies.length === 0) {
-        libraryDiv.innerHTML = '<p>No movies found</p>';
-        return;
+    shownMovies = _movies;
+    renderGrid(libraryDiv, _movies, 'No movies found.');
+
+    let cards = libraryDiv.querySelectorAll('.dashboard-movie-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].innerHTML = cards[i].innerHTML + '<button type="button" class="view-movie-btn">View movie</button>';
     }
-
-    let cards = _movies.map(function(movie){
-        return '<div class="col-6 col-md-3 mb-4">' +
-            '<div class="card">' +
-            '<img src="' + movie.image + '" class="card-img-top">' +
-            '<div class="card-body">' +
-            '<h5 class="card-title">' + movie.title + '</h5>' +
-            '<p class="card-text">User Rating: ' + movie.rating + '/10</p>' +
-            '</div></div></div>';
-    });
-
-    libraryDiv.innerHTML = cards.join('');
 }
 
 // Loads movies from local storage, or gets them from the API first time the page is loaded, and then displays them on the page
 !async function () {
     let savedMovies = JSON.parse(localStorage.getItem('movies'));
 
-    if (!savedMovies) {
-        const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
+    if (!savedMovies || savedMovies.length < 25) {
+        // The API gives 20 movies per page, so 2 pages are loaded to get more than 25 cards
+        for (let page = 1; page <= 2; page++) {
+            let data = await tmdbGet('/discover/movie', { sort_by: 'popularity.desc', page: page });
 
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjk4ZDZhODFjMTk1ZDkyZjc2ZjhhMWYyNGZmNjM1MCIsIm5iZiI6MTc4NjYyNDk1Mi42NzgwMDAyLCJzdWIiOiI2YTdkYmJiOGFhNWU4YzE5ZGE0NDM2NzIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.UtbpK4tQlQzCExl3xr-6sDSZMO1gWcYxdm6qQSIYbG0'
+            console.log(data);
+
+            for (let i = 0; i < data.results.length; i++) {
+                myLibrary.addMovie(toMovie(data.results[i]));
             }
-        };
-
-        let data = await fetch(url, options)
-            .then(res => res.json())
-            .then(res => { return res })
-            .catch(err => console.error(err));
-
-        console.log(data);
-
-        for (let i = 0; i < data.results.length; i++) {
-            let title = data.results[i].title;
-            let rating = data.results[i].vote_average;
-            let imagePath = "https://image.tmdb.org/t/p/w500/" + data.results[i].poster_path;
-
-            let myMovie = new Movie(title, rating, imagePath);
-            myLibrary.addMovie(myMovie);
         }
 
         localStorage.setItem('movies', JSON.stringify(myLibrary.movies));
     } else {
         for (let i = 0; i < savedMovies.length; i++) {
-            let myMovie = new Movie(savedMovies[i].title, savedMovies[i].rating, savedMovies[i].image);
+            let myMovie = new Movie(savedMovies[i].title, savedMovies[i].rating, savedMovies[i].image, savedMovies[i].backdrop, savedMovies[i].overview, savedMovies[i].genres, savedMovies[i].id);
             myLibrary.addMovie(myMovie);
         }
     }
 
     displayMovies(myLibrary.movies);
 }();
+
+
+// Filter by category (All, Comedy, Drama, Action, Horror)
+for (let i = 0; i < categoryPills.length; i++) {
+    categoryPills[i].addEventListener('click', function(event){
+        let genreName = event.target.textContent.trim().toLowerCase();
+        displayMovies(filterLocal(myLibrary.movies, GENRE_IDS[genreName], ''));
+    });
+}
+
+
+// Clicking a card, the "View movie" button or the bookmark
+libraryDiv.addEventListener('click', function(event){
+    handleCardClick(event, function(i){
+        return shownMovies[i];
+    });
+});
 
 
 // Filter by minimum rating
