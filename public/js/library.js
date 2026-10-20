@@ -1,4 +1,3 @@
-// Sebastiaan 
 // Movie class is already in script.js
 
 
