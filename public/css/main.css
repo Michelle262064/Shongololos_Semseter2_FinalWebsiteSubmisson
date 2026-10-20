@@ -65,6 +65,8 @@ body {
     width: auto;
     object-fit: contain;
     cursor: pointer;
+    max-height: 80px;      
+    margin: 0 auto; 
 }
 
 .search {
