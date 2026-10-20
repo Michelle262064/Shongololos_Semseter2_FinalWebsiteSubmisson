@@ -32,6 +32,7 @@ body {
    background-color: var(--background);
    color: var(--text-white);
    min-height: 100vh;
+   min-height: 100dvh;
    overflow-x: hidden;
    background-attachment: fixed;
    display: flex;
@@ -61,7 +62,7 @@ body {
 }
 
 .logo {
-    height: 60px;
+    height: auto;
     width: auto;
     object-fit: contain;
     cursor: pointer;
@@ -475,8 +476,25 @@ body {
 
 /* Header & Logo Styling */
 .siteHeader {
-    padding: 24px 40px;
+    display: flex;
+    justify-content: center;
+    padding: 24px 20px;
     width: 100%;
+    
+}
+
+.siteHeader a {
+    display: block;
+    line-height: 0;
+    text-decoration: none;
+}
+
+.siteHeader img {
+    display: block;
+    height: 60px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .logoContainer {
@@ -530,7 +548,7 @@ body {
     border: 1px solid var(--border-grey);
     border-radius: 6px;
     color: var(--text-white);
-    font-size: 15px;
+    font-size: 16px; 
     outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
@@ -598,6 +616,10 @@ body {
 @media (max-width: 480px) {
     .siteHeader {
         padding: 16px 20px;
+    }
+
+    .siteHeader img {
+        height: 32px;
     }
 
     .authCard {
