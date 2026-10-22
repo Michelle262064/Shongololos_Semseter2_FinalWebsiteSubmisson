@@ -299,15 +299,6 @@ function initPaddles() {
 
   // Keep the navbar right if the user logs in / out in another tab
   window.addEventListener("storage", e => { if (e.key === USER_KEY) renderUserNav(); });
-  // Logout: works for any #logout-button / #logoutBtn on any page
-  document.addEventListener("click", e => {
-  const btn = e.target.closest("#logout-button, #logoutBtn");
-  if (!btn) return;
-  e.preventDefault();
-  try { localStorage.removeItem("streamlineSelectedMovie"); } catch {}
-  logout(); // clears "streamlineUser"
-  window.location.href = "/index.html";
-});
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderUserNav);
   else renderUserNav();
