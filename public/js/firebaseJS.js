@@ -84,6 +84,7 @@ async function handleLogin(event) {
 async function handleLogout() {
     try {
         await signOut(auth);
+        try { localStorage.removeItem("streamlineSelectedMovie"); } catch {}
         window.location.href = "/index.html";
     } catch (error) {
         alert("Could not log out. Please try again.");
