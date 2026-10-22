@@ -60,12 +60,6 @@ async function handleLogin(event) {
     } catch (error) {
         showMessage(signinMessage, getFriendlyErrorMessage(error.code), "error");
     }
-}
-
-async function handleLogin(event) {
-    event.preventDefault();
-    const email = document.getElementById("signinEmail").value.trim();
-    const password = document.getElementById("signinPassword").value;
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
