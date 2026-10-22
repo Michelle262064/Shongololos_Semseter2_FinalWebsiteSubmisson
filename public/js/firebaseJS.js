@@ -8,6 +8,7 @@ import {
     browserLocalPersistence,
     browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
 import { auth } from "./firebase-config.js";
 
 const signinSection = document.getElementById("signinSection");
@@ -44,6 +45,24 @@ function getFriendlyErrorMessage(code) {
     }
 }
 
+async function handleSignUp(event) {
+    event.preventDefault();
+    const fullName = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: fullName });
+        await signOut(auth);
+        signupForm.reset();
+        showCard("signin");
+        showMessage(signinMessage, "Account created! Please sign in.", "success");
+    } catch (error) {
+        showMessage(signupMessage, getFriendlyErrorMessage(error.code), "error");
+    }
+}
+
 async function handleLogin(event) {
     event.preventDefault();
     const email = document.getElementById("signinEmail").value.trim();
@@ -55,13 +74,6 @@ async function handleLogin(event) {
             auth,
             remember ? browserLocalPersistence : browserSessionPersistence
         );
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "/pages/homepage.html";
-    } catch (error) {
-        showMessage(signinMessage, getFriendlyErrorMessage(error.code), "error");
-    }
-
-    try {
         await signInWithEmailAndPassword(auth, email, password);
         window.location.href = "/pages/homepage.html";
     } catch (error) {
@@ -99,4 +111,4 @@ onAuthStateChanged(auth, function (user) {
     } else {
         window.StreamLineAuth.logout();
     }
-}); 
+});
