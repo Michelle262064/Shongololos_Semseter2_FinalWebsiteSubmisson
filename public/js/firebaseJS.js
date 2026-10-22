@@ -63,7 +63,7 @@ async function handleSignUp(event) {
     }
 }
 
-async function handleLogin(event) {
+async function handleLogins(event) {
     event.preventDefault();
     const email = document.getElementById("signinEmail").value.trim();
     const password = document.getElementById("signinPassword").value;
@@ -91,7 +91,7 @@ async function handleLogout() {
 }
 
 if (signinForm && signupForm) {
-    signinForm.addEventListener("submit", handleLogin);
+    signinForm.addEventListener("submit", handleLogins);
     signupForm.addEventListener("submit", handleSignUp);
     showSignup.addEventListener("click", e => { e.preventDefault(); showCard("signup"); });
     showSignin.addEventListener("click", e => { e.preventDefault(); showCard("signin"); });
